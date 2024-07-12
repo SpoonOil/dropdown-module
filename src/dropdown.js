@@ -1,22 +1,24 @@
 class Dropdown {
+  /**
+  * represents a dropdown
+  * @contructor
+  * @param {Object} node - DOM Node.
+  * @param {string} triggerEvent - eventListener event to trigger dropdown behavior.
+  */
   constructor(node, triggerEvent) {
     this.parent = node;
     this.options = [...node.querySelectorAll('.hover-dropdown-option')];
     this.active = this.options[0];
     this.hideExtraOptions();
-    this.parent.addEventListener(triggerEvent, () => {
-      this.showAllOptions();
-    });
-    this.parent.addEventListener('mouseout', () => {
-      this.hideExtraOptions();
-    });
+    this.parent.addEventListener(triggerEvent, () => { this.showAllOptions(); });
+    this.parent.addEventListener('mouseout', () => { this.hideExtraOptions(); });
     this.parent.classList.add('h-fit', 'p-2', 'flex', 'flex-col', 'items-left', 'justify-start');
     this.setWidth();
     this.addListenersToOptions();
   }
 
   setActive(node) {
-    this.active = node
+    this.active = node;
   }
 
   addListenersToOptions() {
@@ -24,18 +26,18 @@ class Dropdown {
       option.addEventListener('click', () => {
         this.setActive(option);
       });
+      option.addEventListener('mouseover', (e) => {
+        e.target.style.opacity = 0.5;
+      });
     });
   }
 
   setWidth() {
     let minWidth = 0;
-    console.log(this.parent.clientWidth);
     this.showAllOptions();
     minWidth = this.parent.clientWidth + 'px';
-    console.log(minWidth);
     this.hideExtraOptions();
     this.parent.style.minWidth = minWidth;
-    console.log(this.parent.clientWidth);
   }
 
   unhideActive() {
